@@ -1,25 +1,31 @@
 const http = require('http')
+const url = require('url')
 const {soma} = require('./teste')
 
 const PORT = 8000
 
-const server = http.createServer((req,res)=>{
-   let valores =
-   req.url
-   .replace('/', '')
-   . replace('?', '')
-   .split('&')
-    '/?a=10&b=20'
-    'a=10&b=20'
-    [ 'a=10', 'b=20']
-        for (item in valores){
-            let chaveValor = item.split('=')
-            console.log(chaveValor)
-    }
-    let resultado = 0
-    res.end(`O valor final é ${resultado}`)
+//criar servidor
+const server = http.createServer((req, res) =>{
+    const urlCapturada = url.parse(req.url, true)
+    const {query} = urlCapturada
+    let resultado = soma(Number(query.a), Number(query.b))
+    res.end(`o valor final é ${resultado}`)
+  if(pathname == '/soma'){
+    resultado = soma(Number(query.a), Number(query.b))
+  } else if (pathname == '/subtracao'){
+    resultado = subtracao(Number(query.a), Number(query.b))
+  } else if (pathname == '/subtracao'){
+    resultado = divisao (Number(query.a), Number(query.b))
+  } else if (pathname == '/subtracao'){
+    resultado = multiplicacao(Number(query.a), Number(query.b))
+  } else {
+    res.statusCode = 404
+    mensagem = 'pagina não encontrada'
+  }
+  res.end(mensagem)
+
 })
 
-server.listen(PORT, ()=>{
-    console.log(`o servidor foi inicializado na porta ${PORT}`)
+server.listen(PORT, ()=> {
+    console.log(`Servidor rodando na porta ${PORT}`)
 })
